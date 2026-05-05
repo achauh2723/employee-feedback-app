@@ -1,0 +1,41 @@
+CREATE DATABASE feedback_app;
+GO
+
+USE feedback_app;
+GO
+
+-- USERS (for auth)
+CREATE TABLE users (
+  id INT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100) UNIQUE,
+  password VARCHAR(255)
+);
+
+-- EMPLOYEES
+CREATE TABLE employees (
+  id INT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100),
+  role VARCHAR(50)
+);
+
+-- REVIEWS
+CREATE TABLE reviews (
+  id INT IDENTITY(1,1) PRIMARY KEY,
+  title VARCHAR(100),
+  description VARCHAR(255),
+  assigned_to INT,
+  FOREIGN KEY (assigned_to) REFERENCES employees(id)
+);
+
+-- FEEDBACK
+CREATE TABLE feedback (
+  id INT IDENTITY(1,1) PRIMARY KEY,
+  review_id INT,
+  reviewer_id INT,
+  comment VARCHAR(255),
+  rating INT,
+  FOREIGN KEY (review_id) REFERENCES reviews(id),
+  FOREIGN KEY (reviewer_id) REFERENCES employees(id)
+);
